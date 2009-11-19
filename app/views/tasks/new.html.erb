@@ -1,11 +1,14 @@
 <% content_for :javascripts do %>
 	<script type="text/javascript">
 		$(function(){
+			
+			//132 - number of chars typed
+			
+			$("#char_count").text(132 - $("#task_notes").val().length)
 
 			$(window).keydown(function(event){				
 			  switch (event.keyCode) {
-				case 16: //when control key is pressed
-				  console.log("The control key has been pressed");
+				case 16: //when shift key is pressed
 				  $("#task_submit").val("End Session");
 				  $("#task_end_session").val("true");
 				  break;
@@ -17,8 +20,7 @@
 
 			$(window).keyup(function(event){
 			  switch (event.keyCode) {
-				case 16: //when control key is pressed
-				  console.log("The control key has been released");
+				case 16: //when shift key is pressed
 				  $("#task_submit").val("Add and New");
 				  $("#task_end_session").val(false);
 				  break;
@@ -26,23 +28,34 @@
 				  break;
 			  }
 			});
+			
+			$(window).keypress(function(event){
+				count = $("#task_notes").val().length				
+				$("#char_count").text(132 - count)
+				
+				//if count < 0, disable submit button
+				if (count < 0) {
+					console.log("I'm over the count limit")
+					$("#task_submit").attr("disabled", true);
+				}
+			});
+			
 		})
 	</script>
 <% end %>
 
-
-<h1>New task</h1>
 <div id="name" class="span-12">
 	<% form_for(@task) do |f| %>
 	  <%= f.error_messages %>
 	  <p>
-	    <%= f.label :notes %><br />
+	    <%= f.label :notes, "Description" %><br />
 	    <%= f.text_area :notes %>
 	  </p>
+	  <span id="char_count">132</span>
 
 	  <p>
 		<%= f.hidden_field :start %>
-		<%= f.submit 'Add and New' %> <br />(hold shift to end session)
+		<%= f.submit 'Add and New' %> (shift+click to end session)
 		<%= f.hidden_field :end_session %>
 	  </p>
 	<% end %>	
@@ -50,6 +63,3 @@
 <div id="name" class="span-12 last clearfix">
 	<%= render :partial => "task_list" %>
 </div>
-
-
-<%= link_to 'Back', tasks_path %>
