@@ -12,14 +12,23 @@
 	</script>
 
 	<script src="/javascripts/jrails/javascripts/jrails.js" type="text/javascript"></script>
+	
+	<%= yield :javascripts %>
 
-  <%= stylesheet_link_tag 'scaffold' %>
+    <%= stylesheet_link_tag 'scaffold' %>
+	<link rel="stylesheet" href="/stylesheets/blueprint-css/blueprint/screen.css" type="text/css" media="screen, projection">
+	<link rel="stylesheet" href="/stylesheets/blueprint-css/blueprint/print.css" type="text/css" media="print">
+	<!--[if lt IE 8]>
+	  <link rel="stylesheet" href="/stylesheets/blueprint-css/blueprint/ie.css" type="text/css" media="screen, projection">
+	<![endif]-->
+    <%= stylesheet_link_tag 'app.css'%>
 </head>
 <body>
 
 <p style="color: green"><%= flash[:notice] %></p>
 
+<div class="container">
 <%= yield %>
-
+</div>
 </body>
 </html>
