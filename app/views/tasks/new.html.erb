@@ -1,23 +1,58 @@
-<h1>New task</h1>
+<% content_for :javascripts do %>
+	<script type="text/javascript">
+		$(function(){
 
-<% form_for(@task) do |f| %>
-  <%= f.error_messages %>
+			$(window).keydown(function(event){				
+			  switch (event.keyCode) {
+				case 16: //when control key is pressed
+				  console.log("The control key has been pressed");
+				  $("#task_submit").val("End Session");
+				  $("#task_end_session").val("true");
+				  break;
+				default:
+				  break;
+			  }
+			});
+			
 
-  <p>
-    <%= f.label :start %><br />
-    <%= f.datetime_select :start %>
-  </p>
-  <p>
-    <%= f.label :stop %><br />
-    <%= f.datetime_select :stop %>
-  </p>
-  <p>
-    <%= f.label :notes %><br />
-    <%= f.text_area :notes %>
-  </p>
-  <p>
-    <%= f.submit 'Create' %>
-  </p>
+			$(window).keyup(function(event){
+			  switch (event.keyCode) {
+				case 16: //when control key is pressed
+				  console.log("The control key has been released");
+				  $("#task_submit").val("Next Task");
+				  $("#task_end_session").val(false);
+				  break;
+				default:
+				  break;
+			  }
+			});
+		})
+	</script>
 <% end %>
 
+
+<h1>New task</h1>
+<div id="name" class="span-12">
+	<% form_for(@task) do |f| %>
+	  <%= f.error_messages %>
+	  <p>
+	    <%= f.label :notes %><br />
+	    <%= f.text_area :notes %>
+	  </p>
+
+	  <p>
+		<%= f.hidden_field :start %>
+		<%= f.submit 'Next Task' %> <br />(hold ctrl to end session)
+		<%= f.hidden_field :end_session %>
+	  </p>
+	<% end %>	
+</div>
+<div id="name" class="span-12 last clearfix">
+	<%= render :partial => "task_list" %>
+</div>
+
+
 <%= link_to 'Back', tasks_path %>
+
+<%= debug @task %>
+<%= debug @task.end_session %>

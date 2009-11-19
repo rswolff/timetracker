@@ -25,6 +25,9 @@ class TasksController < ApplicationController
   # GET /tasks/new.xml
   def new
     @task = Task.new
+    @task.start = DateTime.now
+    @task.end_session = false
+    @task.notes = nil if @task.notes
 
     respond_to do |format|
       format.html # new.html.erb
@@ -41,12 +44,23 @@ class TasksController < ApplicationController
   # POST /tasks.xml
   def create
     @task = Task.new(params[:task])
+    @task.stop = DateTime.now
+    @task.elapsed_time_in_seconds = @task.stop - @task.start
+    
+    logger.info "the value of the end_session is: #{@task.end_session}"
+    
+    #scan for tags
 
     respond_to do |format|
       if @task.save
         flash[:notice] = 'Task was successfully created.'
-        format.html { redirect_to(@task) }
-        format.xml  { render :xml => @task, :status => :created, :location => @task }
+        format.html {
+          if @task.end_session == 'true'
+            redirect_to(@task)
+          else
+            render :action => "new"
+          end  
+        }
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @task.errors, :status => :unprocessable_entity }
