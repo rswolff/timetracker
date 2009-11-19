@@ -42,7 +42,7 @@
 
 	  <p>
 		<%= f.hidden_field :start %>
-		<%= f.submit 'Next Task' %> <br />(hold ctrl to end session)
+		<%= f.submit 'Next Task' %> <br />(hold shift to end session)
 		<%= f.hidden_field :end_session %>
 	  </p>
 	<% end %>	
@@ -53,6 +53,3 @@
 
 
 <%= link_to 'Back', tasks_path %>
-
-<%= debug @task %>
-<%= debug @task.end_session %>
