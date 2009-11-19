@@ -19,7 +19,7 @@
 			  switch (event.keyCode) {
 				case 16: //when control key is pressed
 				  console.log("The control key has been released");
-				  $("#task_submit").val("Next Task");
+				  $("#task_submit").val("Add and New");
 				  $("#task_end_session").val(false);
 				  break;
 				default:
@@ -42,7 +42,7 @@
 
 	  <p>
 		<%= f.hidden_field :start %>
-		<%= f.submit 'Next Task' %> <br />(hold shift to end session)
+		<%= f.submit 'Add and New' %> <br />(hold shift to end session)
 		<%= f.hidden_field :end_session %>
 	  </p>
 	<% end %>	
