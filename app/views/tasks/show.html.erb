@@ -1,0 +1,18 @@
+<p>
+  <b>Start:</b>
+  <%=h @task.start %>
+</p>
+
+<p>
+  <b>Stop:</b>
+  <%=h @task.stop %>
+</p>
+
+<p>
+  <b>Notes:</b>
+  <%=h @task.notes %>
+</p>
+
+
+<%= link_to 'Edit', edit_task_path(@task) %> |
+<%= link_to 'Back', tasks_path %>
