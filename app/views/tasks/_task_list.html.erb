@@ -1,0 +1,8 @@
+<table id="task_list">
+	<% for task in Task.today %>
+	<tr>
+		<td><%= task.start %></td>
+		<td><%= task.notes %></td>
+	</tr>
+	<% end %>
+</table>
