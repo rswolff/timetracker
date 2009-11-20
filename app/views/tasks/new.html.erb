@@ -44,22 +44,28 @@
 	</script>
 <% end %>
 
-<div id="name" class="span-12">
-	<% form_for(@task) do |f| %>
-	  <%= f.error_messages %>
-	  <p>
-	    <%= f.label :notes, "Description" %><br />
-	    <%= f.text_area :notes %>
-	  </p>
-	  <span id="char_count">132</span>
-
-	  <p>
-		<%= f.hidden_field :start %>
-		<%= f.submit 'Add and New' %> (shift+click to end session)
-		<%= f.hidden_field :end_session %>
-	  </p>
-	<% end %>	
+<div id="wrapper" class="span-24 last clearfix">
+	<div id="name" class="span-12">
+		<% form_for(@task) do |f| %>
+		  <%= f.error_messages %>
+		  <p>
+		    <%= f.label :notes, "Description" %><br />
+		    <%= f.text_area :notes %>
+		  </p>
+		  <span id="char_count">132</span>
+		  <p>
+			<%= f.hidden_field :start %>
+			<%= f.submit 'Add and New' %> (shift+click to end work session)
+			<%= f.hidden_field :end_session %>
+		  </p>
+		<% end %>	
+	</div>
+	<div id="name" class="span-12 last clearfix">
+		<%= render :partial => "task_list" %>
+	</div>	
 </div>
-<div id="name" class="span-12 last clearfix">
-	<%= render :partial => "task_list" %>
+
+<div class="span-24 last">
+	<%= debug params %>
+	<%= debug @task.end_session %>	
 </div>

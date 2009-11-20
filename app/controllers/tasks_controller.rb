@@ -49,7 +49,8 @@ class TasksController < ApplicationController
     
     logger.info "the value of the end_session is: #{@task.end_session}"
     
-    #scan for tags
+    #scan for #hashtags
+    tags = @task.notes.scan(/(?:\s|\A)[##]+([\w_]+)/)
 
     respond_to do |format|
       if @task.save
