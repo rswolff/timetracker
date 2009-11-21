@@ -59,7 +59,7 @@ class TasksController < ApplicationController
           if @task.end_session == 'true'
             redirect_to(@task)
           else
-            render :action => "new"
+            redirect_to :action => "new"
           end  
         }
       else

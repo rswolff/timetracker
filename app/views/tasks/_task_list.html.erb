@@ -7,8 +7,8 @@
 	<tbody>
 	<% for task in Task.today %>
 	<tr>
-		<td><%= task.start.to_s(:short) %></td>
-		<td><%= link_to task.notes, edit_task_path(task) %></td>
+		<td width="100px"><%= task.start.to_s(:short) %></td>
+		<td width="860px"><%= link_to task.notes, edit_task_path(task) %></td>
 	</tr>
 	<% end %>
 	</tbody>

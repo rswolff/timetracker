@@ -1,24 +1,49 @@
-<h1>Editing task</h1>
-
-<% form_for(@task) do |f| %>
-  <%= f.error_messages %>
-
-  <p>
-    <%= f.label :start %><br />
-    <%= f.datetime_select :start %>
-  </p>
-  <p>
-    <%= f.label :stop %><br />
-    <%= f.datetime_select :stop %>
-  </p>
-  <p>
-    <%= f.label :notes %><br />
-    <%= f.text_area :notes %>
-  </p>
-  <p>
-    <%= f.submit 'Update' %>
-  </p>
+<% content_for :javascripts do %>
+	<script type="text/javascript">
+		$(function(){
+			$("#char_count").text(132 - $("#task_notes").val().length);
+			$(window).keypress(function(event){
+				count = $("#task_notes").val().length				
+				$("#char_count").text(132 - count)
+				
+				//if count < 0, disable submit button
+				if (count < 0) {
+					console.log("I'm over the count limit")
+					$("#task_submit").attr("disabled", true);
+				}
+			});
+			
+			$(".time").change(function () {
+				// parse the time only if the time is provided
+				if ($(this).val() != '') {
+					d = Date.parse($(this).val()).toString('r');
+					console.log(d)
+					$(this).val(d)
+				}
+		    });
+			
+			
+		})
+	</script>
 <% end %>
 
-<%= link_to 'Show', @task %> |
-<%= link_to 'Back', tasks_path %>
+<div id="wrapper" class="span-24 last clearfix">
+	<div id="name" class="span-12">
+		<% form_for(@task) do |f| %>
+		  <%= f.error_messages %>
+		  <p>
+		    <%= f.label :notes, "Description" %><br />
+		    <%= f.text_area :notes %>
+		  </p>
+		  <span id="char_count">132</span>
+		  <p>
+			<%= f.text_field :start, :class => 'time' %> <%= f.text_field :stop, :class => 'time' %><br />
+			<%= f.submit 'Update' %> (shift+click to end work session)
+			<%= f.hidden_field :end_session %>
+		  </p>
+		<% end %>	
+	</div>
+	<div id="name" class="span-12 last clearfix">
+		<%= render :partial => "task_list" %>
+	</div>	
+</div>

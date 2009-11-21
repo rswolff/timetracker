@@ -1,9 +1,6 @@
 <% content_for :javascripts do %>
 	<script type="text/javascript">
 		$(function(){
-			
-			//132 - number of chars typed
-			
 			$("#char_count").text(132 - $("#task_notes").val().length)
 
 			$(window).keydown(function(event){				
@@ -16,8 +13,6 @@
 				  break;
 			  }
 			});
-			
-
 			$(window).keyup(function(event){
 			  switch (event.keyCode) {
 				case 16: //when shift key is pressed
@@ -28,7 +23,6 @@
 				  break;
 			  }
 			});
-			
 			$(window).keypress(function(event){
 				count = $("#task_notes").val().length				
 				$("#char_count").text(132 - count)
@@ -40,32 +34,38 @@
 				}
 			});
 			
+			$(".time").change(function () {
+				// parse the time only if the time is provided
+				if ($(this).val() != '') {
+					d = Date.parse($(this).val()).toString('r');
+					console.log(d)
+					$(this).val(d)
+				}
+		    });
+			
+			
 		})
 	</script>
 <% end %>
 
 <div id="wrapper" class="span-24 last clearfix">
-	<div id="name" class="span-12">
+	<div id="name" class="span-24 last clearfix">
 		<% form_for(@task) do |f| %>
 		  <%= f.error_messages %>
 		  <p>
-		    <%= f.label :notes, "Description" %><br />
+		    <%= f.label :notes, "What are you working on?" %> <span id="char_count">132</span><br />
 		    <%= f.text_area :notes %>
 		  </p>
-		  <span id="char_count">132</span>
+<div id="start_stop" class="span-24 last clearfix">
+	<%= f.text_field :start, :class => 'time' %>
+</div>
 		  <p>
-			<%= f.hidden_field :start %>
 			<%= f.submit 'Add and New' %> (shift+click to end work session)
 			<%= f.hidden_field :end_session %>
 		  </p>
 		<% end %>	
 	</div>
-	<div id="name" class="span-12 last clearfix">
+	<div id="name" class="span-24 last clearfix">
 		<%= render :partial => "task_list" %>
 	</div>	
-</div>
-
-<div class="span-24 last">
-	<%= debug params %>
-	<%= debug @task.end_session %>	
 </div>
