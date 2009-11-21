@@ -51,7 +51,7 @@ class TasksController < ApplicationController
     
     #scan for #hashtags
     tags = @task.notes.scan(/(?:\s|\A)[##]+([\w_]+)/)
-
+    @task.tag_list = tags
     respond_to do |format|
       if @task.save
         flash[:notice] = 'Task was successfully created.'
