@@ -56,16 +56,21 @@
 		    <%= f.label :notes, "What are you working on?" %> <span id="char_count">132</span><br />
 		    <%= f.text_area :notes %>
 		  </p>
-<div id="start_stop" class="span-24 last clearfix">
-	<%= f.text_field :start, :class => 'time' %>
-</div>
+		<div id="start_stop">
+			<%= f.text_field :start, :class => 'time' %>
+		</div>
 		  <p>
 			<%= f.submit 'Add and New' %> (shift+click to end work session)
 			<%= f.hidden_field :end_session %>
 		  </p>
 		<% end %>	
+	</div>	
+	<div id="update_tasks" class="span-16">
+		<div id="name" class="span-16 last clearfix">
+			<%= render :partial => "task_list" %>
+		</div>		
 	</div>
-	<div id="name" class="span-24 last clearfix">
-		<%= render :partial => "task_list" %>
+	<div id="tags" class="span-8 last">
+		<h1>Tags</h1>
 	</div>	
 </div>
