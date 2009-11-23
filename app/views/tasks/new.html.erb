@@ -49,7 +49,8 @@
 <% end %>
 
 <div id="wrapper" class="span-24 last clearfix">
-	<div id="name" class="span-24 last clearfix">
+	<div id="name" class="span-15 append-1">
+<h3><%= Date.today.to_s(:long)%></h3>		
 		<% form_for(@task) do |f| %>
 		  <%= f.error_messages %>
 		  <p>
@@ -57,20 +58,18 @@
 		    <%= f.text_area :notes %>
 		  </p>
 		<div id="start_stop">
-			<%= f.text_field :start, :class => 'time' %>
+			<%= f.hidden_field :start, :class => 'time' %>
 		</div>
 		  <p>
-			<%= f.submit 'Add and New' %> (shift+click to end work session)
+			<%= f.submit 'Add and New' %>
 			<%= f.hidden_field :end_session %>
 		  </p>
 		<% end %>	
-	</div>	
-	<div id="update_tasks" class="span-16">
-		<div id="name" class="span-16 last clearfix">
+		<div id="name">
 			<%= render :partial => "task_list" %>
-		</div>		
-	</div>
+		</div>
+	</div>	
 	<div id="tags" class="span-8 last">
-		<h1>Tags</h1>
+		<h3>Summary</h3>
 	</div>	
 </div>
