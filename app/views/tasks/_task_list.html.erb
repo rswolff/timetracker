@@ -1,6 +1,6 @@
 <table id="task_list">
 	<tbody>
-	<% for task in Task.today %>
+	<% for task in current_user.tasks %>
 	<tr class="task_item">
 		<td width="100px"><%= task.start.to_s(:short) %></td>
 		<td width="860px"><%= link_to task.notes, edit_task_path(task) %></td>
