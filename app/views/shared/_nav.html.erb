@@ -1,5 +1,5 @@
 <ul id="navlist">
 	<li><%= link_to "New Task", new_task_path %></li>
 	<li><%= link_to "Help", nil %></li>
-	<li><%= link_to "Logout #{current_user}", logout_path %></li>
+	<li><%= link_to "Logout (#{current_user.login})", logout_path %></li>
 </ul>

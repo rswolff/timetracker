@@ -1,4 +1,23 @@
 <% form_for @user do |f| %>
-	<%= f.label :name , "Full Name"%><br />
-	<%= f.text_field :name, :class => "short" %>
+	<p>
+		<%= f.label :first_name , "First Name"%><br />
+		<%= f.text_field :first_name, :class => "short" %><br />
+	</p>
+	<p>
+		<%= f.label :last_name , "Last Name"%><br />
+		<%= f.text_field :last_name, :class => "short" %><br />
+	</p>	
+	<p>
+		<%= f.label :email , "Email Address"%><br />
+		<%= f.text_field :email, :class => "medium" %><br />
+	</p>
+	<p>
+		<%= label_tag 'time_zone', 'Time Zone'%><br />
+		<%= f.time_zone_select :time_zone, ActiveSupport::TimeZone.us_zones, {}, {:style => "width: 400px"} %>
+	</p>		
+	<p>
+		<%= f.label :twitter_username , "Twitter Username"%><br />
+		<%= f.text_field :twitter_username, :class => "short" %><br />
+	</p>	
+	<%= f.submit "Update My Profile", :class => "submit_button" %>
 <% end %>

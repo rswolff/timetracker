@@ -34,7 +34,17 @@ class UsersController < ApplicationController
   end
   
   def update
-    @user = User.find(params[:user])    
+    @user = User.find(params[:id])
+    logger.info @user.to_yaml
+    respond_to do |format|
+      if @user.update_attributes(params[:user])
+        flash[:notice] = 'Task was successfully updated.'
+        format.html { redirect_to(@user) }
+      else
+        format.html { render :action => "edit" }
+      end
+    end
+        
   end
 
   def activate
