@@ -77,7 +77,7 @@
 			<tr id="ptt">
 				<td>PTT</td>
 				<td>
-				<%- time = Task.sum(:elapsed_time_in_seconds, :conditions => ["start > ?", Time.zone.today]) %>
+				<%- time = Task.sum(:elapsed_time_in_seconds, :conditions => ["start  BETWEEN ? AND ?", current_user.today_local_start, current_user.today_local_end]) %>
 				<%= format_seconds_as_hours_minutes(time) %></td>
 			</tr>
 			<% for tag in current_user.todays_tags %>
