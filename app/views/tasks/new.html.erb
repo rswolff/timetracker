@@ -82,7 +82,7 @@
 			</tr>
 			<% for tag in current_user.todays_tags %>
 			<tr>
-				<td>#<%= tag.name %></td>
+				<td><%= link_to("##{tag.name}", nil) %></td>
 				<td><%= format_seconds_as_hours_minutes(tag.elapsed_time_in_seconds.to_i) %></td>
 			</tr>
 			<% end %>
