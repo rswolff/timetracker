@@ -5,7 +5,7 @@ class TasksController < ApplicationController
   # GET /tasks
   # GET /tasks.xml
   def index
-    @tasks = Task.all
+    @tasks = current_user.todays_tasks
 
     respond_to do |format|
       format.html # index.html.erb
