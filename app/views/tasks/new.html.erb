@@ -61,7 +61,7 @@
 			<%= f.hidden_field :start, :class => 'time' %>
 		</div>
 		  <p>
-			<%= f.submit 'Add and New' %>
+			<%= f.submit 'Add and New', :class => 'submit_button' %>
 			<%= f.hidden_field :end_session %>
 			<%= f.hidden_field :user_id %>
 		  </p>
@@ -78,12 +78,12 @@
 				<td>PTT</td>
 				<td>
 				<%- time = Task.sum(:elapsed_time_in_seconds, :conditions => ["start > ?", Time.zone.today]) %>
-				<%= [time/3600, time/60 % 60].map{|t| t.to_s.rjust(2,'0')}.join(':') %></td>
+				<%= format_seconds_as_hours_minutes(time) %></td>
 			</tr>
 			<% for tag in current_user.todays_tags %>
 			<tr>
-				<td>#<%= tag %></td>
-				<td></td>
+				<td>#<%= tag.name %></td>
+				<td><%= format_seconds_as_hours_minutes(tag.elapsed_time_in_seconds.to_i) %></td>
 			</tr>
 			<% end %>
 		</table>

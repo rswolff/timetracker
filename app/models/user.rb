@@ -58,9 +58,11 @@ class User < ActiveRecord::Base
   
   def todays_tags
     Tag.find( :all,
-              :select =>"DISTINCT tags.id, tags.name", 
+              :select =>"tags.id, tags.name, SUM(elapsed_time_in_seconds) AS elapsed_time_in_seconds", 
               :joins => "INNER JOIN taggings ON tags.id = taggings.tag_id INNER JOIN tasks ON taggings.taggable_id = tasks.id",
-              :conditions => ['start BETWEEN ? AND ?', self.today_local_start, self.today_local_end])
+              :conditions => ['start BETWEEN ? AND ?', self.today_local_start, self.today_local_end],
+              :group => "tags.id",
+              :order => "elapsed_time_in_seconds DESC, name")
   end
 
   protected

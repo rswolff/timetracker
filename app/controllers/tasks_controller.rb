@@ -13,12 +13,10 @@ class TasksController < ApplicationController
   # GET /tasks/1
   # GET /tasks/1.xml
   def show
-    @task = Task.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @task }
-    end
+    @task = current_user.tasks.find(:params[:id])
+  rescue
+    flash[:warning] = "You are not permitted to see this page."
+    redirect_to new_task_path
   end
 
   # GET /tasks/new
@@ -47,11 +45,10 @@ class TasksController < ApplicationController
     @task.stop = DateTime.now
     @task.elapsed_time_in_seconds = @task.stop - @task.start
     
-    logger.info "the value of the end_session is: #{@task.end_session}"
-    
     #scan for #hashtags
     tags = @task.notes.scan(/(?:\s|\A)[##]+([\w_]+)/)
     @task.tag_list = tags
+    
     respond_to do |format|
       if @task.save
         flash[:notice] = 'Task was successfully created.'
