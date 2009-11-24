@@ -3,6 +3,7 @@ class UsersController < ApplicationController
   # Protect these actions behind an admin login
   # before_filter :admin_required, :only => [:suspend, :unsuspend, :destroy, :purge]
   before_filter :find_user, :only => [:suspend, :unsuspend, :destroy, :purge]
+  before_filter :login_required
   
 
   # render new.rhtml
@@ -22,6 +23,18 @@ class UsersController < ApplicationController
       flash[:error]  = "We couldn't set up that account, sorry.  Please try again, or contact an admin (link is above)."
       render :action => 'new'
     end
+  end
+  
+  def show
+    @user = User.find(params[:id])
+  end
+  
+  def edit
+    @user = User.find(params[:id])    
+  end
+  
+  def update
+    @user = User.find(params[:user])    
   end
 
   def activate
