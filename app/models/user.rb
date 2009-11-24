@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
   include Authentication::ByCookieToken
   include Authorization::AasmRoles
   
-  has_many :tasks, :conditions => ["DATE(start) = ?", Time.zone.today], :order => "start"
+  has_many :tasks,  :order => "start"
   
   acts_as_tagger
 
@@ -23,21 +23,13 @@ class User < ActiveRecord::Base
   validates_uniqueness_of   :email
   validates_format_of       :email,    :with => Authentication.email_regex, :message => Authentication.bad_email_message
 
-
-
   # HACK HACK HACK -- how to do attr_accessible from here?
   # prevents a user from submitting a crafted form that bypasses activation
   # anything else you want your user to change should be added here.
   attr_accessible :login, :email, :name, :password, :password_confirmation, :time_zone
   
-  named_scope :today, lambda {{:conditions => ["DATE(start) = '#{Time.zone.today}'"], :order => "start DESC"}}
-
   # Authenticates a user by their login name and unencrypted password.  Returns the user or nil.
-  #
-  # uff.  this is really an authorization, not authentication routine.  
-  # We really need a Dispatch Chain here or something.
-  # This will also let us return a human error message.
-  #
+  
   def self.authenticate(login, password)
     return nil if login.blank? || password.blank?
     u = find_in_state :first, :active, :conditions => {:login => login.downcase} # need to get the salt
@@ -51,6 +43,25 @@ class User < ActiveRecord::Base
   def email=(value)
     write_attribute :email, (value ? value.downcase : nil)
   end
+  
+  def today_local_start
+    Time.zone.local(y=Date.today.year, m=Date.today.mon, d=Date.today.day, h=0, min=0, s=0)
+  end
+  
+  def today_local_end
+    Time.zone.local(y=Date.today.year, m=Date.today.mon, d=Date.today.day, h=-1, min=-1, s=-1)
+  end
+  
+  def todays_tasks
+    self.tasks.find(:all, :conditions => ['start BETWEEN ? AND ?', self.today_local_start, self.today_local_end ])
+  end
+  
+  def todays_tags
+    Tag.find( :all,
+              :select =>"DISTINCT tags.id, tags.name", 
+              :joins => "INNER JOIN taggings ON tags.id = taggings.tag_id INNER JOIN tasks ON taggings.taggable_id = tasks.id",
+              :conditions => ['start BETWEEN ? AND ?', self.today_local_start, self.today_local_end])
+  end
 
   protected
     
@@ -58,6 +69,4 @@ class User < ActiveRecord::Base
         self.deleted_at = nil
         self.activation_code = self.class.make_token
     end
-
-
 end

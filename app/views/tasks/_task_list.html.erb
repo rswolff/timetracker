@@ -1,16 +1,10 @@
 <table id="task_list">
 	<tbody>
-	<% for task in current_user.tasks %>
+	<% for task in current_user.todays_tasks %>
 	<tr class="task_item">
 		<td width="100px"><%= task.start.to_s(:short) %></td>
 		<td width="860px"><%= link_to task.notes, edit_task_path(task) %></td>
 	</tr>
 	<% end %>
 	</tbody>
-	<tfoot>
-		<tr><%- time = Task.sum(:elapsed_time_in_seconds, :conditions => ["start > ?", Time.zone.today]) %>
-			<td><%= [time/3600, time/60 % 60].map{|t| t.to_s.rjust(2,'0')}.join(':') %></td>
-			<td>Logged time today</td>
-		</tr>
-	<tfoot>
 </table>

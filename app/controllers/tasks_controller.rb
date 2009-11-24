@@ -25,7 +25,7 @@ class TasksController < ApplicationController
   # GET /tasks/new.xml
   def new
     @task = Task.new
-    @task.start = DateTime.now
+    @task.start = Time.zone.now
     @task.end_session = false
     @task.notes = nil if @task.notes
 
@@ -43,7 +43,7 @@ class TasksController < ApplicationController
   # POST /tasks
   # POST /tasks.xml
   def create
-    @task = Task.new(params[:task])
+    @task = current_user.tasks.build(params[:task])
     @task.stop = DateTime.now
     @task.elapsed_time_in_seconds = @task.stop - @task.start
     
