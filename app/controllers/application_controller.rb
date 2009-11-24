@@ -4,11 +4,17 @@
 class ApplicationController < ActionController::Base
   include AuthenticatedSystem
   
+  before_filter :set_user_time_zone
+  
   helper :all # include all helpers, all the time
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
 
   # Scrub sensitive parameters from your log
   filter_parameter_logging :password
 
-  Time.zone = 'Mountain Time (US & Canada)'
+  private
+  def set_user_time_zone
+    current_user.time_zone if logged_in? 
+  end
+
 end
