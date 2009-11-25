@@ -7,5 +7,5 @@ ActiveSupport::CoreExtensions::Date::Conversions::DATE_FORMATS.merge!(
 
 ActiveSupport::CoreExtensions::Time::Conversions::DATE_FORMATS.merge!(
   :military => "%H%M",
-  :short => "%H:%M"  
+  :short => "%H:%M %p"  
 )

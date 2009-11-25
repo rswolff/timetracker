@@ -1,4 +1,5 @@
 <% content_for :javascripts do %>
+	<script src="/javascripts/jquery.epiclock.min.js" type="text/javascript" src=></script>
 	<script type="text/javascript">
 		$(function(){
 			$("#char_count").text(132 - $("#task_notes").val().length)
@@ -43,14 +44,15 @@
 				}
 		    });
 			
-			
+			//timer courtesty of http://code.google.com/p/epiclock/	
+			jQuery('#clock').epiclock({mode: EC_STOPWATCH, format: 'x{:}i{:}s'}).clocks(EC_RUN);			
 		})
 	</script>
 <% end %>
 
 <div id="wrapper" class="span-24 last clearfix">
 	<div id="name" class="span-15 append-1">
-<h3><%= Date.today.to_s(:long)%></h3>		
+		<h3><%= Date.today.to_s(:long)%></h3>		
 		<% form_for(@task) do |f| %>
 		  <%= f.error_messages %>
 		  <p>
@@ -60,13 +62,18 @@
 		<div id="start_stop">
 			<%= f.hidden_field :start, :class => 'time' %>
 		</div>
-		  <p>
-			<%= f.submit 'Add and New', :class => 'submit_button' %>
-			<%= f.hidden_field :end_session %>
-			<%= f.hidden_field :user_id %>
-		  </p>
+		<div id="task-meta-info" class="span-15 append-1">
+			<div class="span-11">
+				Current task started at: <%= @task.start.to_s(:short) %>. <span id="clock"></span>
+			</div>
+			<div id="task-submit-button" class="span-4 last clearfix">
+				<%= f.submit 'Add and New', :class => 'submit_button' %>
+				<%= f.hidden_field :end_session %>
+				<%= f.hidden_field :user_id %>
+			</div>
+		</div>
 		<% end %>	
-		<div id="name">
+		<div id="name" class="span-15 append-1">
 			<%= render :partial => "task_list" %>
 		</div>
 	</div>	
