@@ -6,6 +6,15 @@
 			
 			jQuery.easing.def = "easInOutSine";
 			
+			
+			window.onbeforeunload = function(){
+				if($("#task_notes").val().length > 0){
+					//
+				} else {
+					return "You have not yet logged the current task."					
+				};
+			}
+			
 			$("#char_count").text(132 - $("#task_notes").val().length)
 
 			$(window).keydown(function(event){				
