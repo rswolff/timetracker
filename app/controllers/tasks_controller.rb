@@ -46,12 +46,7 @@ class TasksController < ApplicationController
   def create
     @task = current_user.tasks.build(params[:task])
     @task.stop = DateTime.now
-    @task.elapsed_time_in_seconds = @task.stop - @task.start
-    
-    #scan for #hashtags
-    tags = @task.notes.scan(/(?:\s|\A)[##]+([\w_]+)/)
-    @task.tag_list = tags
-    
+        
     respond_to do |format|
       if @task.save
         flash[:notice] = 'Task was successfully created.'
