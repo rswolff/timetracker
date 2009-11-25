@@ -53,6 +53,7 @@ class User < ActiveRecord::Base
     self.tasks.find(:all, :conditions => ['start BETWEEN ? AND ?', self.today_local_start, self.today_local_end ], :order => 'start DESC')
   end
   
+  #todo: this needs a better method name. the current name is not very descriptive
   def todays_tags
     Tag.find( :all,
               :select =>"tags.id, tags.name, SUM(elapsed_time_in_seconds) AS elapsed_time_in_seconds", 
@@ -60,6 +61,10 @@ class User < ActiveRecord::Base
               :conditions => ['start BETWEEN ? AND ?', self.today_local_start, self.today_local_end],
               :group => "tags.id",
               :order => "elapsed_time_in_seconds DESC, name")
+  end
+  
+  def todays_not_tagged
+    Task.sum( :elapsed_time_in_seconds, :conditions => ['not_tagged = ? AND start BETWEEN ? AND ?', true, self.today_local_start, self.today_local_end])    
   end
 
   protected

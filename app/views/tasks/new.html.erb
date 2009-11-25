@@ -104,6 +104,10 @@
 				<td><%= format_seconds_as_hours_minutes(tag.elapsed_time_in_seconds.to_i) %></td>
 			</tr>
 			<% end %>
+			<tr>
+				<td>#not_tagged</td>
+				<td><%= format_seconds_as_hours_minutes(current_user.todays_not_tagged) %></td>
+			</tr>
 		</table>
 	</div>	
 </div>
