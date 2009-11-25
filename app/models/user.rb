@@ -50,7 +50,7 @@ class User < ActiveRecord::Base
   end
   
   def todays_tasks
-    self.tasks.find(:all, :conditions => ['start BETWEEN ? AND ?', self.today_local_start, self.today_local_end ])
+    self.tasks.find(:all, :conditions => ['start BETWEEN ? AND ?', self.today_local_start, self.today_local_end ], :order => 'start DESC')
   end
   
   def todays_tags
