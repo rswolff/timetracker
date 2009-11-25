@@ -45,7 +45,17 @@
 		    });
 			
 			//timer courtesty of http://code.google.com/p/epiclock/	
-			jQuery('#clock').epiclock({mode: EC_STOPWATCH, format: 'x{:}i{:}s'}).clocks(EC_RUN);			
+			jQuery('#clock').epiclock({mode: EC_STOPWATCH, format: 'x{:}i{:}s'}).clocks(EC_RUN);
+			
+			
+			$("#task_start").hide();
+			
+			//toggle start time
+			$("a#toggle_start").click(function(){
+				$("#task_start").toggle();
+				return false;
+			})
+						
 		})
 	</script>
 <% end %>
@@ -55,18 +65,19 @@
 		<h3><%= Date.today.to_s(:long)%></h3>		
 		<% form_for(@task) do |f| %>
 		  <%= f.error_messages %>
-		  <p>
+		  <p id="task-notes-wrap">
 		    <%= f.label :notes, "What are you working on?" %> <span id="char_count">132</span><br />
 		    <%= f.text_area :notes %>
 		  </p>
-		<div id="start_stop">
-			<%= f.hidden_field :start, :class => 'time' %>
+		<div id="current-task-meta-info">
+			Current task started at: <%= @task.start.to_s(:short) %>. <span id="clock"></span>
+				<%= link_to "toggle start time", nil, {:id => "toggle_start"} %>
+		</div>
+		<div id="start-wrap" class="span-15 last">
+			<%= f.text_field :start, {:class => 'time smaller_short'} %>							
 		</div>
 		<div id="task-meta-info" class="span-15 append-1">
-			<div class="span-11">
-				Current task started at: <%= @task.start.to_s(:short) %>. <span id="clock"></span>
-			</div>
-			<div id="task-submit-button" class="span-4 last clearfix">
+			<div id="task-submit-button" class="clearfix">
 				<%= f.submit 'Add and New', :class => 'submit_button' %>
 				<%= f.hidden_field :end_session %>
 				<%= f.hidden_field :user_id %>
