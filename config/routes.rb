@@ -1,4 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
+
+
   map.logout '/logout', :controller => 'sessions', :action => 'destroy'
   map.login '/login', :controller => 'sessions', :action => 'new'
   map.register '/register', :controller => 'users', :action => 'create'
@@ -9,7 +11,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :users, :member => { :suspend   => :put, :unsuspend => :put, :purge => :delete }
   map.resource :session
   map.resources :tasks
-
+  map.resources :categories, :has_many => [:tags]
   # The priority is based upon order of creation: first created -> highest priority.
 
   # Sample of regular route:
