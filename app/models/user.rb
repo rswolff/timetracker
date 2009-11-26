@@ -7,6 +7,7 @@ class User < ActiveRecord::Base
   include Authorization::AasmRoles
   
   has_many :tasks,  :order => "start"
+  has_many :categories
   
   acts_as_tagger
 
