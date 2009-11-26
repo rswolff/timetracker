@@ -16,13 +16,7 @@ class Task < ActiveRecord::Base
     self.notes.scan(/(?:\s|\A)[##]+([\w_]+)/)
   end
   
-  def add_hashtags
-    hashtags = scan_for_hashtags
-    if hashtags.empty?
-      #set the not_tagged flag
-      self.not_tagged = true
-    else
-      self.tag_list = hashtags
-    end
+  def tagged?
+    self.tags.nil? ? false : true
   end
 end

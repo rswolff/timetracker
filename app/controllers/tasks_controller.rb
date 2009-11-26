@@ -46,6 +46,8 @@ class TasksController < ApplicationController
   def create
     @task = current_user.tasks.build(params[:task])
     @task.stop = DateTime.now
+    t = @current_user.tag(@task, :with => find_hashtags(params[:task][:notes]), :on => :tags)
+    logger.info t.to_yaml
         
     respond_to do |format|
       if @task.save
@@ -91,5 +93,9 @@ class TasksController < ApplicationController
       format.html { redirect_to(tasks_url) }
       format.xml  { head :ok }
     end
+  end
+  
+  def find_hashtags(string)
+    string.scan(/(?:\s|\A)[##]+([\w_]+)/)
   end
 end
