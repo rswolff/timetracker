@@ -1,11 +1,9 @@
 class UsersController < ApplicationController
-  
   # Protect these actions behind an admin login
   # before_filter :admin_required, :only => [:suspend, :unsuspend, :destroy, :purge]
   before_filter :find_user, :only => [:suspend, :unsuspend, :destroy, :purge]
   before_filter :login_required
   
-
   # render new.rhtml
   def new
     @user = User.new
@@ -87,6 +85,15 @@ class UsersController < ApplicationController
   # There's no page here to update or destroy a user.  If you add those, be
   # smart -- make sure you check that the visitor is authorized to do so, that they
   # supply their old password along with a new one to update it, etc.
+  
+  def check_tags    
+    respond_to do |format|      
+      format.js {
+        new_tags = params[:tags].scan(/\w+/) - @current_user.owned_tags.map {|tag| tag.name}
+        render :json => new_tags
+      }
+    end
+  end
 
 protected
   def find_user

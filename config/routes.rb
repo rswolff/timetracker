@@ -9,6 +9,8 @@ ActionController::Routing::Routes.draw do |map|
   
   
   map.resources :users, :member => { :suspend   => :put, :unsuspend => :put, :purge => :delete }
+  map.check_user_tags '/users/:id/check_tags', :controller => 'users', :action => 'check_tags'
+  
   map.resource :session
   map.resources :tasks
   map.resources :categories, :has_many => [:tags]
