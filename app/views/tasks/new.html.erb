@@ -1,10 +1,12 @@
 <% content_for :javascripts do %>
 	<script src="/javascripts/jquery.easing.1.3.js" type="text/javascript"></script>
 	<script src="/javascripts/jquery.epiclock.min.js" type="text/javascript"></script>
+	<script src="/javascripts/jquery.colorbox.js" type="text/javascript"></script>
+	
 	<script type="text/javascript">
 		$(function(){
 			
-			jQuery.easing.def = "easInOutSine";
+			$("#test").colorbox({iframe:true, width:450, height:300});
 			
 			window.onbeforeunload = function(){
 				if($("#task_notes").val().length > 0){
@@ -93,6 +95,10 @@
 							new_tags.push(j);
 						});
 						
+						url = "<%= new_category_tag_path(1) %>" + "/" + window.new_tags.join()
+						console.log(url)
+						
+						$.fn.colorbox({href: url, iframe:true, width:450, height:300, open:true, opacity: 0.7})
 						console.log(window.new_tags);
 					});
 				};
@@ -113,6 +119,7 @@
 <% end %>
 
 <% content_for :stylesheets do %>
+	<%= stylesheet_link_tag 'colorbox.css' %>
 <% end%>
 
 <div id="wrapper" class="span-24 last clearfix">
@@ -167,6 +174,6 @@
 		</table>
 	</div>	
 	
-	<a href="/help.html" rel="facebox">text</a>
+	<a href="/help.html" id="test">text</a>
 	
 </div>

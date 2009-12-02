@@ -2,7 +2,7 @@ class CategoriesController < ApplicationController
   # GET /categories
   # GET /categories.xml
   def index
-    @categories = Category.all
+    @categories = @current_user.categories
 
     respond_to do |format|
       format.html # index.html.erb
@@ -24,7 +24,7 @@ class CategoriesController < ApplicationController
   # GET /categories/new
   # GET /categories/new.xml
   def new
-    @category = Category.new
+    @category = @current_user.categories.build
 
     respond_to do |format|
       format.html # new.html.erb
@@ -82,9 +82,4 @@ class CategoriesController < ApplicationController
       format.xml  { head :ok }
     end
   end
-  
-  
-    
-  end
-  
 end

@@ -6,14 +6,16 @@ ActionController::Routing::Routes.draw do |map|
   map.register '/register', :controller => 'users', :action => 'create'
   map.signup '/signup', :controller => 'users', :action => 'new'
   map.activate '/activate/:activation_code', :controller => 'users', :action => 'activate', :activation_code => nil
+  map.new_tag '/categories/:category_id/tags/new/:tags', :controller => 'tags', :action => 'new', :tags => /[\w+,]+/
+    
   
-  
-  map.resources :users, :member => { :suspend   => :put, :unsuspend => :put, :purge => :delete }
+  map.resources :users, :has_many => [:categories], :member => { :suspend => :put, :unsuspend => :put, :purge => :delete }
   map.check_user_tags '/users/:id/check_tags', :controller => 'users', :action => 'check_tags'
   
   map.resource :session
   map.resources :tasks
   map.resources :categories, :has_many => [:tags]
+
   # The priority is based upon order of creation: first created -> highest priority.
 
   # Sample of regular route:
